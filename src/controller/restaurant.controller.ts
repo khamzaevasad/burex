@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { LoginInput, MemberInput, ReqAdmin } from "../libs/types/member";
 import MemberService from "../model/Member.service";
 import { MemberType } from "../libs/enums/member.enum";
-import { Message } from "../libs/Errors";
+import Errors, { Message } from "../libs/Errors";
 
 const restaurantController: T = {};
 
@@ -70,6 +70,21 @@ restaurantController.processLogin = async (req: ReqAdmin, res: Response) => {
     req.session.member = result;
     req.session.save(function () {
       res.send(result);
+    });
+  } catch (err) {
+    console.log("Error processLogin", err);
+    const message =
+      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+    res.send(`<script> alert("${message}") </script>`);
+  }
+};
+
+// logout
+restaurantController.logout = async (req: ReqAdmin, res: Response) => {
+  try {
+    console.log("logout");
+    req.session.destroy(function () {
+      res.redirect("/");
     });
   } catch (err) {
     console.log("Error processLogin", err);

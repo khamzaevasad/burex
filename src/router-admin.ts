@@ -11,5 +11,6 @@ router
   .post("/login", restaurantController.processLogin);
 
 router.get("/check-me", restaurantController.checkedAuthenticated);
+router.get("/logout", restaurantController.logout);
 
 export default router;
