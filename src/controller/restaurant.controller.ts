@@ -1,8 +1,9 @@
 import { T } from "../libs/types/common";
 import { Request, Response } from "express";
-import { LoginInput, MemberInput } from "../libs/types/member";
+import { LoginInput, MemberInput, ReqAdmin } from "../libs/types/member";
 import MemberService from "../model/Member.service";
 import { MemberType } from "../libs/enums/member.enum";
+import Errors, { Message } from "../libs/Errors";
 
 const restaurantController: T = {};
 
@@ -27,7 +28,7 @@ restaurantController.getSignup = (req: Request, res: Response) => {
 };
 
 // processSignup
-restaurantController.processSignup = async (req: Request, res: Response) => {
+restaurantController.processSignup = async (req: ReqAdmin, res: Response) => {
   try {
     console.log("processSignup");
     console.log("body", req.body);
@@ -37,7 +38,10 @@ restaurantController.processSignup = async (req: Request, res: Response) => {
     const memberService = new MemberService();
     const result = await memberService.processSignup(newMember);
 
-    res.send(result);
+    req.session.member = result;
+    req.session.save(function () {
+      res.send(result);
+    });
   } catch (err) {
     console.log("Error processSignup", err);
     res.send(err);
@@ -55,7 +59,7 @@ restaurantController.getLogin = (req: Request, res: Response) => {
 };
 
 // processLogin
-restaurantController.processLogin = async (req: Request, res: Response) => {
+restaurantController.processLogin = async (req: ReqAdmin, res: Response) => {
   try {
     console.log("processLogin");
     console.log("body", req.body);
@@ -63,8 +67,43 @@ restaurantController.processLogin = async (req: Request, res: Response) => {
     const input: LoginInput = req.body;
     const memberService = new MemberService();
     const result = await memberService.processLogin(input);
+    req.session.member = result;
+    req.session.save(function () {
+      res.send(result);
+    });
+  } catch (err) {
+    console.log("Error processLogin", err);
+    const message =
+      err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
+    res.send(`<script> alert("${message}") </script>`);
+  }
+};
 
-    res.send(result);
+// logout
+restaurantController.logout = async (req: ReqAdmin, res: Response) => {
+  try {
+    console.log("logout");
+    req.session.destroy(function () {
+      res.redirect("/");
+    });
+  } catch (err) {
+    console.log("Error processLogin", err);
+    res.send(err);
+  }
+};
+
+//checkedAuthenticated
+restaurantController.checkedAuthenticated = async (
+  req: ReqAdmin,
+  res: Response
+) => {
+  try {
+    console.log("checkedAuthenticated");
+    if (req.session?.member)
+      res.send(
+        `<script> alert("Hi ${req.session.member.memberNick}") </script>`
+      );
+    else res.send(`<script> alert("${Message.NOT_AUTHENTICATED}") </script>`);
   } catch (err) {
     console.log("Error processLogin", err);
     res.send(err);
