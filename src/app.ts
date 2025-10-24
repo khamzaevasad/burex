@@ -3,6 +3,7 @@ import path from "path";
 import morgan from "morgan";
 import { MORGAN_FORMAT } from "./libs/config";
 import routerAdmin from "./router-admin";
+import router from "./router-admin";
 import ConnectMongoDBSession from "connect-mongodb-session";
 import session from "express-session";
 const app = express();
@@ -38,6 +39,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // routing
-app.use("/", routerAdmin);
+app.use("/admin", routerAdmin);
+app.use("/", router);
 
 export default app;
