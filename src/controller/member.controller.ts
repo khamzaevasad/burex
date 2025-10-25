@@ -1,6 +1,6 @@
 import MemberService from "../model/Member.service";
 import { T } from "../libs/types/common";
-import { Response, Request, json } from "express";
+import { Response, Request } from "express";
 import { MemberInput, LoginInput, Member } from "../libs/types/member";
 import Errors from "../libs/Errors";
 import { MemberType } from "../libs/enums/member.enum";
@@ -11,9 +11,9 @@ const membersController: T = {};
 membersController.signup = async (req: Request, res: Response) => {
   try {
     console.log("signup");
-    console.log("body", req.body);
     const input: MemberInput = req.body;
     const result: Member = await memberService.signup(input);
+    console.log("After create:", result);
     res.json({ member: result });
   } catch (err) {
     console.log("Error signup", err);
