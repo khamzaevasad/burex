@@ -29,7 +29,7 @@ router.get(
 router.post(
   "/product/create",
   restaurantController.verifyRestaurant,
-  makeUpLoader("products").single("productImage"),
+  makeUpLoader("products").array("productImages", 5),
   productController.createNewProduct
 );
 router.post(
