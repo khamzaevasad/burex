@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { LoginInput, MemberInput, ReqAdmin } from "../libs/types/member";
 import MemberService from "../model/Member.service";
 import { MemberType } from "../libs/enums/member.enum";
-import Errors, { Message } from "../libs/Errors";
+import Errors, { HttpCode, Message } from "../libs/Errors";
 
 const restaurantController: T = {};
 
@@ -31,17 +31,20 @@ restaurantController.getSignup = (req: Request, res: Response) => {
 restaurantController.processSignup = async (req: ReqAdmin, res: Response) => {
   try {
     console.log("processSignup");
-    console.log("body", req.body);
+    const file = req.file;
+    if (!file)
+      throw new Errors(HttpCode.BAD_REQUEST, Message.SOMETHING_WENT_WRONG);
 
     const newMember: MemberInput = req.body;
     newMember.memberType = MemberType.RESTAURANT;
+    newMember.memberImage = file?.path;
     const memberService = new MemberService();
     const result = await memberService.processSignup(newMember);
     console.log("after", result);
 
     req.session.member = result;
     req.session.save(function () {
-      res.send(result);
+      res.redirect("/admin/product/all");
     });
   } catch (err) {
     console.log("Error processSignup", err);
@@ -63,14 +66,12 @@ restaurantController.getLogin = (req: Request, res: Response) => {
 restaurantController.processLogin = async (req: ReqAdmin, res: Response) => {
   try {
     console.log("processLogin");
-    console.log("body", req.body);
-
     const input: LoginInput = req.body;
     const memberService = new MemberService();
     const result = await memberService.processLogin(input);
     req.session.member = result;
     req.session.save(function () {
-      res.send(result);
+      res.redirect("/admin/product/all");
     });
   } catch (err) {
     console.log("Error processLogin", err);
