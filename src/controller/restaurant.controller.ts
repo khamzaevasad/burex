@@ -111,13 +111,13 @@ restaurantController.checkedAuthenticated = async (
   }
 };
 
+// verifyRestaurant
 restaurantController.verifyRestaurant = (
   req: ReqAdmin,
   res: Response,
   next: NextFunction
 ) => {
   if (req.session?.member?.memberType === MemberType.RESTAURANT) {
-    console.log("000", req);
     req.member = req.session.member;
     next();
   } else {
