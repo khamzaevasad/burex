@@ -18,6 +18,7 @@ productController.getAllProducts = (req: Request, res: Response) => {
 productController.createNewProduct = (req: Request, res: Response) => {
   try {
     console.log("createNewProduct");
+    res.send("Done");
   } catch (err) {
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);

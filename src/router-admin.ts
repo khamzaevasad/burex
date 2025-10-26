@@ -1,12 +1,17 @@
 import express from "express";
 import restaurantController from "./controller/restaurant.controller";
 import productController from "./controller/product.controller";
+import makeUpLoader from "./libs/utils/uploader";
 const router = express.Router();
 
 router.get("/", restaurantController.goHome);
 router
   .get("/signup", restaurantController.getSignup)
-  .post("/signup", restaurantController.processSignup);
+  .post(
+    "/signup",
+    makeUpLoader("members").single("memberImage"),
+    restaurantController.processSignup
+  );
 router
   .get("/login", restaurantController.getLogin)
   .post("/login", restaurantController.processLogin);
@@ -21,7 +26,16 @@ router.get(
   restaurantController.verifyRestaurant,
   productController.getAllProducts
 );
-router.post("/product/create", productController.createNewProduct);
-router.post("/product/:id", productController.updateChosenProduct);
+router.post(
+  "/product/create",
+  restaurantController.verifyRestaurant,
+  makeUpLoader("products").single("productImage"),
+  productController.createNewProduct
+);
+router.post(
+  "/product/:id",
+  restaurantController.verifyRestaurant,
+  productController.updateChosenProduct
+);
 
 export default router;
