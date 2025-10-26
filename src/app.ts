@@ -6,6 +6,7 @@ import routerAdmin from "./router-admin";
 import router from "./router";
 import ConnectMongoDBSession from "connect-mongodb-session";
 import session from "express-session";
+import { T } from "./libs/types/common";
 const app = express();
 
 // enteres
@@ -33,6 +34,12 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+app.use(function (req, res, next) {
+  const sessionInstance = req.session as T;
+  res.locals.member = sessionInstance.member;
+  next();
+});
 
 // views
 app.set("views", path.join(__dirname, "views"));
