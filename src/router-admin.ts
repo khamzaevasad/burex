@@ -16,7 +16,11 @@ router.get("/logout", restaurantController.logout);
 
 // product
 
-router.get("/product/all", productController.getAllProducts);
+router.get(
+  "/product/all",
+  restaurantController.verifyRestaurant,
+  productController.getAllProducts
+);
 router.post("/product/create", productController.createNewProduct);
 router.post("/product/:id", productController.updateChosenProduct);
 
