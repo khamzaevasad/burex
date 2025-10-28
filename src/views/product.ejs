@@ -3,6 +3,9 @@
   <div>
     <h3>Product Page</h3>
     <h3><%= member.memberNick%></h3>
+    <% products.map((value, key) => { %>
+    <p><%= value.productName%> - <%= value.productSize%></p>
+    <% }) %>
   </div>
 </body>
 <%- include('includes/footer.ejs') %>

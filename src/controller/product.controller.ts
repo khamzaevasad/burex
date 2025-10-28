@@ -4,21 +4,23 @@ import { T } from "../libs/types/common";
 import { Request, Response } from "express";
 import { ReqAdmin } from "../libs/types/member";
 import { ProductInput } from "../libs/types/product";
+
 const productController: T = {};
 
 const productService = new ProductService();
 
 // getAllProducts
-productController.getAllProducts = (req: Request, res: Response) => {
+productController.getAllProducts = async (req: Request, res: Response) => {
   try {
     console.log("getAllProduct");
-    res.render("product");
+    const data = await productService.getAllProducts();
+    console.log("data", data);
+    res.render("product", { products: data });
   } catch (err) {
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
-
 // createNewProduct
 productController.createNewProduct = async (req: ReqAdmin, res: Response) => {
   try {
@@ -55,5 +57,4 @@ productController.updateChosenProduct = async (req: Request, res: Response) => {
     else res.status(Errors.standard.code).json(Errors.standard);
   }
 };
-
 export default productController;
