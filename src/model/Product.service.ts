@@ -14,6 +14,12 @@ class ProductService {
   // SPA
 
   // BSSR
+  public getAllProducts = async (): Promise<Product[]> => {
+    const result = await this.productModel.find().exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
+  };
+
   public createNewProduct = async (input: ProductInput): Promise<Product> => {
     try {
       return await this.productModel.create(input);
@@ -32,7 +38,6 @@ class ProductService {
       new: true,
     });
     if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
-
     return result;
   };
 }
