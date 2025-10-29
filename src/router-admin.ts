@@ -38,4 +38,12 @@ router.post(
   productController.updateChosenProduct
 );
 
+// users
+
+router.get(
+  "/users",
+  restaurantController.verifyRestaurant,
+  restaurantController.getUsers
+);
+
 export default router;

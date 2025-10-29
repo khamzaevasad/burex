@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { ProductInput, ProductUpdateInput } from "../libs/types/product";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import ProductModel from "../schema/Product.model";
@@ -13,7 +14,7 @@ class ProductService {
 
   // SPA
 
-  // BSSR
+  // SSR
   public getAllProducts = async (): Promise<Product[]> => {
     const result = await this.productModel.find().exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
