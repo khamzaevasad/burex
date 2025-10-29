@@ -1,0 +1,141 @@
+/* ======== General Layout ======== */
+.users-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0d0d0c, #1b1b1b, #383838);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  padding-top: 20px;
+}
+
+/* ======== Navigation ======== */
+.nav-bar {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.nav-bar .nav-link {
+  color: #dcdcdc;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 8px 15px;
+  transition: all 0.3s ease;
+}
+
+.nav-bar .nav-link:hover,
+.nav-bar .nav-link.active {
+  color: #ffffff;
+  background-color: #2b2b2b;
+  border-radius: 6px;
+}
+
+/* ======== Main Section ======== */
+.users-frame {
+  width: 100%;
+  max-width: 1200px;
+  margin: 60px auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+/* ======== Empty State ======== */
+.empty-state {
+  width: 100%;
+  text-align: center;
+  color: #888;
+  font-size: 22px;
+  font-weight: 500;
+  margin-top: 100px;
+}
+
+/* ======== Table Section ======== */
+.user-table-card {
+  width: 100%;
+  background: rgb(70, 70, 70);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+}
+
+.user-table-card h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* ======== Table ======== */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  background-color: gray;
+  border-radius: 20px;
+}
+
+.user-table thead {
+  background-color: gray;
+}
+
+.user-table th,
+.user-table td {
+  padding: 14px 10px;
+  font-size: 15px;
+  color: white;
+  border-bottom: 1px solid rgb(70, 70, 70);
+  border-radius: 20px;
+}
+
+.user-table th {
+  font-weight: 600;
+  color: white;
+}
+
+/* ======== Select ======== */
+.spec-select {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
+}
+
+.spec-select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* ======== Responsive ======== */
+@media (max-width: 768px) {
+  .user-table-card {
+    padding: 20px;
+  }
+
+  .user-table th,
+  .user-table td {
+    font-size: 14px;
+    padding: 10px 6px;
+  }
+
+  .nav-list {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .user-table-card h2 {
+    font-size: 20px;
+  }
+}

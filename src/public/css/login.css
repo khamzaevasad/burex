@@ -1,0 +1,135 @@
+/* Background */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0d0d0c, #1b1b1b, #383838);
+  background-size: 200% 200%;
+  animation: bgShift 10s ease infinite;
+  padding: 20px;
+}
+
+/* Login Box */
+.login-frame {
+  background: #ffffff0e;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.3);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 380px;
+  padding: 32px 28px;
+  color: #f2f2f2;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Header Text */
+.login-top span {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.login-top div,
+.login-top p {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  color: #cfcfcf;
+}
+
+.login-top a {
+  color: #8c77ff;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.login-top a:hover {
+  text-decoration: underline;
+}
+
+/* Input fields */
+.login-input-frame {
+  margin-top: 20px;
+}
+
+.login-input-container {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-input-container label {
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  margin-bottom: 6px;
+}
+
+.login-input-container input {
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 0.95rem;
+  padding-left: 14px;
+  transition: all 0.3s ease;
+}
+
+.login-input-container input:focus {
+  outline: none;
+  border-color: #8c77ff;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Button */
+.login-btn {
+  margin-top: 25px;
+  width: 100%;
+  height: 52px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #8c77ff, #5e4bff);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, #a491ff, #705cff);
+}
+
+/* Background Animation */
+@keyframes bgShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-frame {
+    padding: 24px 20px;
+    border-radius: 12px;
+  }
+
+  .login-top span {
+    font-size: 1.6rem;
+  }
+
+  .login-btn {
+    height: 48px;
+    font-size: 1rem;
+  }
+}
