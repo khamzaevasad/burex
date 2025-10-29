@@ -26,7 +26,7 @@ class MemberService {
       result.memberPassword = "";
       return result.toJSON();
     } catch (err) {
-      console.log("Error, model:singup", err);
+      console.log("Error, model:signup", err);
       throw new Errors(HttpCode.BAD_REQUEST, Message.USED_NICK_PHONE);
     }
   }
@@ -54,7 +54,7 @@ class MemberService {
     return await this.memberModel.findById(member._id).lean().exec();
   }
 
-  //**BSSR**/
+  //**SSR**/
 
   // processSignup
   public async processSignup(input: MemberInput): Promise<Member> {

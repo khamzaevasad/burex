@@ -1,5 +1,115 @@
-<%- include('includes/header.ejs') %>
+<%- include('includes/header') %>
+
+<link rel="stylesheet" type="text/css" href="/css/signup.css" />
+
 <body>
-  <div>Signup Page</div>
+  <div class="signup-container">
+    <form
+      action="/admin/signup"
+      method="POST"
+      enctype="multipart/form-data"
+      class="signup-form"
+    >
+      <div class="signup-frame">
+        <div class="signup-top">
+          <h2>Sign Up</h2>
+          <p class="redirect-text">
+            Already have an account?
+            <a href="/admin/login" class="link">Login</a>
+          </p>
+          <p class="redirect-text">
+            Go back <a href="/admin" class="link">Home</a>
+          </p>
+        </div>
+
+        <div class="sign-input-frame">
+          <div class="sign-up-frame">
+            <label>Restaurant *</label>
+            <input
+              type="text"
+              name="memberNick"
+              placeholder="Enter restaurant name"
+              required
+            />
+          </div>
+          <div class="sign-up-frame">
+            <label>Phone *</label>
+            <input
+              type="text"
+              name="memberPhone"
+              placeholder="Enter phone number"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="sign-input-frame">
+          <div class="sign-up-frame">
+            <label>Password *</label>
+            <input
+              type="password"
+              name="memberPassword"
+              placeholder="Enter password"
+              required
+            />
+          </div>
+          <div class="sign-up-frame">
+            <label>Repeat Password *</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Repeat password"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="media-frame">
+          <div class="upload-img-frame">
+            <img id="preview" src="/img/default.jpeg" alt="Preview" />
+          </div>
+          <div class="upload-container">
+            <label class="media-text">Restaurant Image</label>
+            <div class="file-box">
+              <input
+                class="upload-name"
+                value="No file chosen"
+                disabled="disabled"
+              />
+              <label for="input-file" class="file-label">Choose File</label>
+              <input
+                type="file"
+                id="input-file"
+                name="memberImage"
+                accept=".jpg,.jpeg,.png"
+                class="upload-hidden"
+              />
+            </div>
+            <p class="thumbnail-desc">
+              Allowed formats: <b>.jpg</b>, <b>.jpeg</b>, <b>.png</b>
+            </p>
+          </div>
+        </div>
+
+        <input name="memberType" value="RESTAURANT" hidden />
+
+        <button class="signup-btn" type="submit">Sign Up</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Image preview logic (unchanged from your original JS)
+    document
+      .getElementById("input-file")
+      .addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+          document.querySelector(".upload-name").value = file.name;
+          document.getElementById("preview").src = URL.createObjectURL(file);
+        }
+      });
+  </script>
 </body>
-<%- include('includes/footer.ejs') %>
+
+<%- include('includes/footer') %>

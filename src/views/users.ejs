@@ -1,5 +1,82 @@
-<%- include('includes/header.ejs') %>
+<%- include('includes/header') %>
+
+<link rel="stylesheet" href="/css/users.css" />
+
 <body>
-  <div>Users Page</div>
+  <div class="users-container">
+    <% if(!member) { %>
+    <nav class="nav-bar">
+      <ul class="nav-list">
+        <li><a href="/admin/">Home</a></li>
+        <li><a href="/admin/signup">SignUp</a></li>
+        <li><a href="/admin/login">Login</a></li>
+      </ul>
+    </nav>
+
+    <main class="users-frame">
+      <div class="empty-state">
+        <p>Please login first!</p>
+      </div>
+    </main>
+
+    <% } else { %>
+    <nav class="nav-bar">
+      <ul class="nav justify-content-center flex-wrap">
+        <li class="nav-item">
+          <a class="nav-link active" href="/admin/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/product/all">Menu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/user/all">Users</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link logout"
+            href="/admin/logout"
+            onclick="return confirm('Do you want to logout?')"
+            >Logout</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <main class="users-frame">
+      <section class="user-table-card">
+        <h2 style="color: white">All Users List</h2>
+        <div class="table-wrapper">
+          <table class="user-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>David</td>
+                <td>821024697878</td>
+                <td>
+                  <select class="spec-select member-status">
+                    <option value="ACTIVE" selected>ACTIVE</option>
+                    <option value="BLOCK">BLOCK</option>
+                    <option value="DELETE">DELETE</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <% } %>
+  </div>
+
+  <script src="/js/users.js"></script>
 </body>
-<%- include('includes/footer.ejs') %>
+
+<%- include('includes/footer') %>

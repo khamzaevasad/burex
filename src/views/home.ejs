@@ -1,19 +1,69 @@
-<%- include('includes/header.ejs') %>
+<%- include('includes/header') %>
+
+<link rel="stylesheet" type="text/css" href="/css/home.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.js"></script>
+
 <body>
-  <div class="card" style="width: 18rem">
-    <img
-      src="https://www.spinny.com/blog/wp-content/uploads/2024/09/videoframe_0-1160x653.webp"
-      class="card-img-top"
-      alt="..."
-    />
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">
-        Some quick example text to build on the card title and make up the bulk
-        of the card’s content.
-      </p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+  <div class="home-container">
+    <!-- Navigation -->
+    <nav class="navigation-menu">
+      <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link active" href="/admin">Home</a>
+        </li>
+        <% if (!member) { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/signup">Signup</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/login">Login</a>
+        </li>
+        <% } else { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/product/all">Menu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/user/all">Users</a>
+        </li>
+        <li
+          class="nav-item logout-item"
+          onclick="return confirm('Do you want to logout?')"
+        >
+          <a class="nav-link" href="/admin/logout">Logout</a>
+        </li>
+        <% } %>
+      </ul>
+    </nav>
+
+    <!-- Animation Sphere -->
+    <div class="animation-frame">
+      <div class="animation-wrapper">
+        <div class="sphere-animation">
+          <svg class="sphere" viewBox="0 0 440 440" stroke="rgba(80,80,80,.35)">
+            <!-- Gradient Definition -->
+            <defs>
+              <linearGradient
+                id="sphereGradient"
+                x1="5%"
+                x2="5%"
+                y1="0%"
+                y2="15%"
+              >
+                <stop stop-color="#373734" offset="0%" />
+                <stop stop-color="#242423" offset="50%" />
+                <stop stop-color="#0D0D0C" offset="100%" />
+              </linearGradient>
+            </defs>
+            <!-- Paths -->
+            <!-- (paths o‘zgarishsiz qoldirildi) -->
+            ...
+          </svg>
+        </div>
+      </div>
     </div>
   </div>
+
+  <script type="text/javascript" src="/js/home.js"></script>
 </body>
-<%- include('includes/footer.ejs') %>
+
+<%- include('includes/footer') %>
