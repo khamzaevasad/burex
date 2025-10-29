@@ -4,7 +4,7 @@ import { LoginInput, MemberInput, ReqAdmin } from "../libs/types/member";
 import MemberService from "../model/Member.service";
 import { MemberType } from "../libs/enums/member.enum";
 import Errors, { HttpCode, Message } from "../libs/Errors";
-
+const memberService = new MemberService();
 const restaurantController: T = {};
 
 // home
@@ -38,7 +38,6 @@ restaurantController.processSignup = async (req: ReqAdmin, res: Response) => {
     const newMember: MemberInput = req.body;
     newMember.memberType = MemberType.RESTAURANT;
     newMember.memberImage = file?.path.replace(/\\/g, "/");
-    const memberService = new MemberService();
     const result = await memberService.processSignup(newMember);
     console.log("after", result);
 
@@ -67,7 +66,6 @@ restaurantController.processLogin = async (req: ReqAdmin, res: Response) => {
   try {
     console.log("processLogin");
     const input: LoginInput = req.body;
-    const memberService = new MemberService();
     const result = await memberService.processLogin(input);
     req.session.member = result;
     req.session.save(function () {
@@ -78,6 +76,19 @@ restaurantController.processLogin = async (req: ReqAdmin, res: Response) => {
     const message =
       err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
     res.send(`<script> alert("${message}") </script>`);
+  }
+};
+
+// getUsers
+restaurantController.getUsers = async (req: Request, res: Response) => {
+  try {
+    console.log("getUsers");
+    const result = await memberService.getUsers();
+    console.log("result", result);
+    res.render("users", { users: result });
+  } catch (err) {
+    console.log("Error getUsers", err);
+    res.redirect("/admin/login");
   }
 };
 
