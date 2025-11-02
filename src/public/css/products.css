@@ -51,7 +51,7 @@
 
 /* Table */
 .table-wrapper {
-  background: #1e1e1e;
+  background: rgb(70, 70, 70);
   border-radius: 10px;
   padding: 20px;
   overflow-x: auto;
@@ -64,8 +64,8 @@
 }
 
 .table td {
-  background-color: #ffffff;
-  color: #111;
+  background-color: gray;
+  color: white;
 }
 
 .spec-select {
@@ -119,11 +119,11 @@
 }
 
 .form-control {
-  background: #f8f8f8;
+  background: gray;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid transparent;
   padding: 10px 15px;
-  color: #222;
+  color: white;
 }
 
 textarea.form-control {
@@ -170,6 +170,19 @@ textarea.form-control {
   justify-content: flex-end;
   gap: 15px;
   margin-top: 20px;
+}
+
+.form-control::placeholder {
+  color: #f0f0f0; /* yoki oq rang */
+  opacity: 1; /* ba’zi browserlarda rang aniq chiqishi uchun */
+}
+
+/* Input focus holati */
+.form-control:focus {
+  background: gray; /* fokusda ham gray bo‘lib qolsin */
+  color: white;
+  border: 1px solid #007bff; /* ixtiyoriy — ko‘k chegarasi */
+  outline: none; /* default outline olib tashlash */
 }
 
 /* Responsive */
