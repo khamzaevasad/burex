@@ -5,6 +5,7 @@
 <body>
   <div class="signup-container">
     <form
+      onsubmit="return validateSignupForm()"
       action="/admin/signup"
       method="POST"
       enctype="multipart/form-data"
@@ -28,8 +29,8 @@
             <input
               type="text"
               name="memberNick"
+              class="member-nick"
               placeholder="Enter restaurant name"
-              required
             />
           </div>
           <div class="sign-up-frame">
@@ -37,8 +38,8 @@
             <input
               type="text"
               name="memberPhone"
+              class="member-phone"
               placeholder="Enter phone number"
-              required
             />
           </div>
         </div>
@@ -49,8 +50,8 @@
             <input
               type="password"
               name="memberPassword"
+              class="member-password"
               placeholder="Enter password"
-              required
             />
           </div>
           <div class="sign-up-frame">
@@ -58,8 +59,8 @@
             <input
               type="password"
               name="confirmPassword"
+              class="confirm-password"
               placeholder="Repeat password"
-              required
             />
           </div>
         </div>
@@ -110,6 +111,8 @@
         }
       });
   </script>
+
+  <script type="text/javascript" src="/js/signup.js"></script>
 </body>
 
 <%- include('includes/footer') %>
