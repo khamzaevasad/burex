@@ -46,23 +46,31 @@
               <th>Status</th>
             </tr>
           </thead>
+          <% products.map((value, key) => { %>
           <tbody style="background: white">
             <tr>
-              <td>1</td>
-              <td>Steak</td>
-              <td>Dish</td>
-              <td>Normal</td>
-              <td>11</td>
-              <td>100</td>
+              <td><%= key + 1%></td>
+              <td><%= value.productName %></td>
+              <td><%= value.productCollection %></td>
               <td>
-                <select class="spec-select new-product-status">
-                  <option value="PAUSE" selected>PAUSE</option>
-                  <option value="PROCESS">PROCESS</option>
-                  <option value="DELETE">DELETE</option>
-                </select>
+                <%= value.productCollection === 'DRINK' ? value.productVolume :
+                value.productSize %>
+              </td>
+              <td><%= value.productPrice %></td>
+              <td><%= value.productLeftCount%></td>
+              <td>
+                <select
+                  class="spec-select new-product-status"
+                  id="<%= value._id %>"
+                >
+                <option value="PAUSE" <%= value.productStatus === "PAUSE" ? 'selected' : "" %> >PAUSE</option>
+                <option value="PROCESS" <%= value.productStatus === "PROCESS" ? 'selected' : "" %> >PROCESS</option>
+                <option value="DELETE" <%= value.productStatus === "DELETE" ? 'selected' : "" %> >DELETE</option>
+              </select>
               </td>
             </tr>
           </tbody>
+          <% }) %>
         </table>
         <div class="btn-wrapper">
           <button class="btn btn-primary" id="process-btn">New Product</button>
@@ -146,7 +154,7 @@
             <% for(let i = 1; i <= 5; i++) { %>
             <div class="upload-box">
               <img src="/img/upload.svg" id="image-section-<%= i %>" />
-              <input type="file" name="productImages" id="file" />
+              <input type="file" name="productImages" id="file-<%= i %>" />
             </div>
             <% } %>
           </div>

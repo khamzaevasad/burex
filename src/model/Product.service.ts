@@ -1,4 +1,3 @@
-import { ObjectId } from "mongoose";
 import { ProductInput, ProductUpdateInput } from "../libs/types/product";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import ProductModel from "../schema/Product.model";
