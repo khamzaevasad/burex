@@ -46,7 +46,7 @@
               <th>Status</th>
             </tr>
           </thead>
-          <% products.map((value, key) => { %>
+          <% products.forEach((value, key) => { %>
           <tbody style="background: white">
             <tr>
               <td><%= key + 1%></td>
@@ -79,6 +79,7 @@
 
       <!-- Create Form -->
       <form
+      onsubmit="return validateForm()"
         action="/admin/product/create"
         method="POST"
         class="dish-container"
@@ -91,11 +92,11 @@
           <input
             type="text"
             name="productName"
-            class="form-control"
+            class="form-control product-name"
             placeholder="Name"
-            required
+            
           />
-          <input type="hidden" name="productStatus" value="PAUSE" />
+          <input type="hidden" name="productStatus" value="PAUSE" class="product-status" />
         </div>
 
         <div class="form-row">
@@ -104,9 +105,9 @@
             <input
               type="number"
               name="productPrice"
-              class="form-control"
+              class="form-control product-price"
               placeholder="Price"
-              required
+              
             />
           </div>
           <div class="form-group half">
@@ -114,9 +115,9 @@
             <input
               type="number"
               name="productLeftCount"
-              class="form-control"
+              class="form-control product-left-count"
               placeholder="Counts"
-              required
+              
             />
           </div>
         </div>
@@ -124,7 +125,7 @@
         <div class="form-row">
           <div class="form-group half">
             <label>Product Type</label>
-            <select class="form-control" name="productCollection">
+            <select class="form-control product-collection" name="productCollection">
               <option value="DISH">Dish</option>
               <option value="SALAD">Salad</option>
               <option value="DESSERT">Dessert</option>
@@ -132,7 +133,8 @@
               <option value="OTHER">Other</option>
             </select>
           </div>
-          <div class="form-group half">
+
+          <div id="product-collection"" class="form-group half">
             <label>Dish Volume</label>
             <select class="form-control" name="productSize">
               <option value="SMALL">Small</option>
@@ -141,27 +143,60 @@
               <option value="SET">Set</option>
             </select>
           </div>
+
+           <div id="product-volume" class="form-group half" style="display: none"> 
+            <label>Drink Volume</label>
+            <select class="form-control product-volume" name="productVolume">
+               <option value="0.5">0,5 liters</option>
+                <option value="1" selected>1 liters</option>
+                <option value="1.2">1,2 liters</option>
+                <option value="1.5">1,5 liters</option>
+                <option value="2">2 liters</option>
+            </select>
+          </div>
+
         </div>
 
         <div class="form-group">
           <label>Product Description</label>
-          <textarea name="productDesc" class="form-control" rows="4"></textarea>
+          <textarea name="productDesc" class="form-control product-desc" rows="4"></textarea>
         </div>
 
         <div class="form-group">
           <label>Product Images</label>
           <div class="upload-frame">
-            <% for(let i = 1; i <= 5; i++) { %>
+      
             <div class="upload-box">
-              <img src="/img/upload.svg" id="image-section-<%= i %>" />
-              <input type="file" name="productImages" id="file-<%= i %>" />
+              <img src="/img/upload.svg" id="image-section-1"/>
+              <input class="image-one" type="file" name="productImages" id="file" onchange="previewFileHandler(this, 1)">
+              
             </div>
-            <% } %>
+
+            <div class="upload-box">
+              <img src="/img/upload.svg" id="image-section-2"/>
+              <input class="image-two" type="file" name="productImages" id="file" onchange="previewFileHandler(this, 2)"/>
+            </div>
+
+            <div class="upload-box">
+              <img src="/img/upload.svg" id="image-section-3"/>
+              <input class="image-three" type="file" name="productImages" id="file" onchange="previewFileHandler(this, 3)"/>
+            </div>
+
+            <div class="upload-box">
+              <img src="/img/upload.svg" id="image-section-4"/>
+              <input class="image-four" type="file" name="productImages" id="file" onchange="previewFileHandler(this, 4)"/>
+            </div>
+
+            <div class="upload-box">
+              <img src="/img/upload.svg" id="image-section-5"/>
+              <input class="image-five" type="file" name="productImages" id="file" onchange="previewFileHandler(this, 5)"/>
+            </div>
+         
           </div>
         </div>
 
         <div class="form-actions">
-          <button class="btn btn-danger" id="cancel-btn">Cancel</button>
+          <button type="button" class="btn btn-danger" id="cancel-btn">Cancel</button>
           <button type="submit" class="btn btn-primary" id="create-btn">
             Create
           </button>

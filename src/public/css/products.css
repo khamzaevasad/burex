@@ -105,6 +105,7 @@
   border-radius: 10px;
   padding: 25px;
   margin-top: 40px;
+  display: none;
 }
 
 .form-group {
@@ -152,7 +153,7 @@ textarea.form-control {
 }
 
 .upload-box img {
-  width: 50%;
+  width: 100%;
   opacity: 0.6;
 }
 
