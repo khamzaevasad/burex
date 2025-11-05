@@ -9,25 +9,16 @@
 
 body {
   font-family: "Inter", "Roboto", sans-serif;
-  background: radial-gradient(circle at top, #121212, #0a0a0a);
+  background: linear-gradient(135deg, #2b2b2b, #000);
   color: #f5f5f5;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 /* ===========
-   Container
+   Navigation
    =========== */
-.home-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-x: hidden;
-}
-
 .navigation-menu {
   width: 100%;
   background: #1e1e1e;
@@ -36,7 +27,6 @@ body {
   z-index: 10;
   padding: 0.8rem 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(5px);
 }
 
 .navigation-menu ul {
@@ -47,10 +37,6 @@ body {
   gap: 1.2rem;
   margin: 0;
   padding: 0;
-}
-
-.navigation-menu .nav-item {
-  text-align: center;
 }
 
 .navigation-menu .nav-link {
@@ -69,100 +55,72 @@ body {
   transform: scale(1.03);
 }
 
-.navigation-menu .nav-link.active {
-  color: #ffffff;
-  background-color: #2b2b2b;
-  font-weight: 600;
-}
-
 .navigation-menu .logout-item .nav-link {
   color: #ffb74d;
-}
-
-.navigation-menu .logout-item .nav-link:hover {
-  background-color: #3a3a3a;
-}
-
-/* Responsiv holat */
-@media (max-width: 768px) {
-  .navigation-menu ul {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-  }
-  .navigation-menu .nav-link {
-    font-size: 15px;
-    padding: 10px 18px;
-  }
 }
 
 /* ===========
    Animation Frame
    =========== */
 .animation-frame {
+  margin-top: 8rem;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
-  padding: 3rem 0;
 }
 
 .animation-wrapper {
-  position: relative;
-  width: 90%;
-  max-width: 600px;
-  aspect-ratio: 1/1;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
-.sphere-animation {
-  width: 100%;
-  height: 100%;
+/* Dumaloq rasm */
+.rotating-image img {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: drop-shadow(0 0 25px rgba(255, 140, 0, 0.4));
+  transition: transform 0.3s ease;
 }
 
-.sphere path {
-  fill: url(#sphereGradient);
-  stroke-width: 0.5px;
-  stroke: rgba(255, 255, 255, 0.08);
-  animation: rotateSphere 10s linear infinite;
-  transform-origin: center;
+/* Matn rasm ostida */
+.welcome-text {
+  margin-top: 20px; /* rasm pastidan 20px */
+  color: #fff;
 }
 
-/* ===========
-   Keyframes
-   =========== */
-@keyframes rotateSphere {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.welcome-text h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #f2c94c;
+  text-shadow: 0 0 20px rgba(242, 201, 76, 0.4);
+}
+
+.welcome-text p {
+  font-size: 1.1rem;
+  margin-top: 10px;
+  opacity: 0;
 }
 
 /* ===========
    Responsive
    =========== */
 @media (max-width: 768px) {
-  .navigation-menu .nav-link {
-    font-size: 1rem;
+  .rotating-image img {
+    width: 200px;
+    height: 200px;
   }
-  .animation-wrapper {
-    max-width: 400px;
-  }
-}
 
-@media (max-width: 480px) {
-  .navigation-menu ul {
-    gap: 0.8rem;
+  .welcome-text h1 {
+    font-size: 1.5rem;
   }
-  .navigation-menu .nav-link {
-    font-size: 0.9rem;
-  }
-  .animation-wrapper {
-    max-width: 300px;
+
+  .welcome-text p {
+    font-size: 1rem;
   }
 }

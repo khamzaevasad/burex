@@ -35,33 +35,65 @@
       </ul>
     </nav>
 
-    <!-- Animation Sphere -->
+    <!-- Animation Section -->
     <div class="animation-frame">
       <div class="animation-wrapper">
-        <div class="sphere-animation">
-          <svg class="sphere" viewBox="0 0 440 440" stroke="rgba(80,80,80,.35)">
-            <!-- Gradient Definition -->
-            <defs>
-              <linearGradient
-                id="sphereGradient"
-                x1="5%"
-                x2="5%"
-                y1="0%"
-                y2="15%"
-              >
-                <stop stop-color="#373734" offset="0%" />
-                <stop stop-color="#242423" offset="50%" />
-                <stop stop-color="#0D0D0C" offset="100%" />
-              </linearGradient>
-            </defs>
-            <!-- Paths -->
-            <!-- (paths o‘zgarishsiz qoldirildi) -->
-            ...
-          </svg>
+        <div class="rotating-image">
+          <img src="/img/nusret.png" alt="Restaurant Logo" />
+        </div>
+
+        <!-- Text -->
+        <div class="welcome-text">
+          <h1>Nusret</h1>
+          <p>Fine Dining Experience & Premium Management System</p>
         </div>
       </div>
     </div>
   </div>
+
+  <script>
+    // Image rotation animation
+    anime({
+      targets: ".rotating-image img",
+      rotate: 360,
+      duration: 8000,
+      loop: true,
+      easing: "linear",
+    });
+
+    // Breathing glow effect (scale)
+    anime({
+      targets: ".rotating-image img",
+      scale: [
+        { value: 1, duration: 1500, easing: "easeInOutSine" },
+        { value: 1.05, duration: 1500, easing: "easeInOutSine" },
+      ],
+      loop: true,
+      direction: "alternate",
+    });
+
+    // Text fade-in animation
+    anime
+      .timeline()
+      .add({
+        targets: ".welcome-text h1",
+        translateY: [-20, 0],
+        opacity: [0, 1],
+        duration: 1000,
+        easing: "easeOutExpo",
+        delay: 400,
+      })
+      .add(
+        {
+          targets: ".welcome-text p",
+          translateY: [-10, 0],
+          opacity: [0, 1],
+          duration: 800,
+          easing: "easeOutExpo",
+        },
+        "-=600"
+      );
+  </script>
 
   <script type="text/javascript" src="/js/home.js"></script>
 </body>
