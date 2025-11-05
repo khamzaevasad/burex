@@ -1,5 +1,5 @@
 import { shapeIntoMongooseObjectId } from "../libs/config";
-import { MemberType } from "../libs/enums/member.enum";
+import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import {
   LoginInput,
@@ -36,7 +36,10 @@ class MemberService {
     // TODO: Consider member status later
     const member = await this.memberModel
       .findOne(
-        { memberNick: input.memberNick },
+        {
+          memberNick: input.memberNick,
+          memberStatus: { $ne: MemberStatus.DELETE },
+        },
         { memberNick: 1, memberPassword: 1 }
       )
       .exec();
