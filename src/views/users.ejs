@@ -55,20 +55,22 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>David</td>
-                <td>821024697878</td>
-                <td>
-                  <select class="spec-select member-status">
-                    <option value="ACTIVE" selected>ACTIVE</option>
-                    <option value="BLOCK">BLOCK</option>
-                    <option value="DELETE">DELETE</option>
-                  </select>
-                </td>
-              </tr>
-            </tbody>
+            <% users.forEach((user, index) => { %>
+              <tbody>
+                <tr>
+                  <td><%= index + 1 %></td>
+                  <td><%= user.memberNick %></td>
+                  <td><%= user.memberPhone %></td>
+                  <td>
+                    <select class="spec-select member-status" id="<%= user._id %>">
+                      <option value="ACTIVE" <%= user.status === 'ACTIVE' ? 'selected' : '' %>>ACTIVE</option>
+                      <option value="BLOCK" <%= user.status === 'BLOCK' ? 'selected' : '' %>>BLOCK</option>
+                      <option value="DELETE" <%= user.status === 'DELETE' ? 'selected' : '' %>>DELETE</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            <% }); %>
           </table>
         </div>
       </section>
