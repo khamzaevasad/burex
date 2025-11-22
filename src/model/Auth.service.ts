@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 class AuthService {
   private readonly secretToken;
   constructor() {
-    this.secretToken = process.env.SECRET_TOKEN;
+    this.secretToken = process.env.SECRET_TOKEN as string;
   }
 
   public async createToken(payload: Member) {
@@ -13,7 +13,7 @@ class AuthService {
       const duration = `${AUTH_TIMER}h`;
       jwt.sign(
         payload,
-        this.secretToken as string,
+        this.secretToken,
         { expiresIn: duration },
         (err, token) => {
           if (err)
@@ -24,6 +24,16 @@ class AuthService {
         }
       );
     });
+  }
+
+  public async checkAuth(token: string): Promise<Member> {
+    const result: Member = (await jwt.verify(
+      token,
+      this.secretToken
+    )) as Member;
+
+    console.log(`---[Auth] ${result.memberNick}---`);
+    return result;
   }
 }
 

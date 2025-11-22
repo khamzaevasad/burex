@@ -5,5 +5,10 @@ const router = express.Router();
 /** Member **/
 router.post("/member/signup", membersController.signup);
 router.post("/member/login", membersController.login);
+router.get("/member/detail", membersController.verifyAuth);
+
+/** Product **/
+
+/** Order **/
 
 export default router;
