@@ -1,8 +1,13 @@
 import MemberService from "../model/Member.service";
 import AuthService from "../model/Auth.service";
 import { T } from "../libs/types/common";
-import { Response, Request } from "express";
-import { MemberInput, LoginInput, Member } from "../libs/types/member";
+import { Response, Request, NextFunction } from "express";
+import {
+  MemberInput,
+  LoginInput,
+  Member,
+  ExtendedRequest,
+} from "../libs/types/member";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { AUTH_TIMER } from "../libs/config";
 const memberService = new MemberService();
@@ -51,20 +56,52 @@ membersController.login = async (req: Request, res: Response) => {
   }
 };
 
-// verify auth
-membersController.verifyAuth = async (req: Request, res: Response) => {
+// logout
+membersController.logout = (req: ExtendedRequest, res: Response) => {
   try {
-    let member = null;
-    const token = req.cookies["accessToken"];
-    if (token) member = await authService.checkAuth(token);
+    console.log("logout");
+    res.cookie("accessToken", null, { maxAge: 0, httpOnly: true });
+    res.status(HttpCode.OK).json({ logout: true });
+  } catch (err) {
+    console.log("Error login", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
 
-    if (!member)
+// verify auth
+membersController.verifyAuth = async (
+  req: ExtendedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    console.log("verify Auth");
+    const token = req.cookies["accessToken"];
+    if (token) req.member = await authService.checkAuth(token);
+    if (!req.member)
       throw new Errors(HttpCode.UNAUTHORIZED, Message.NOT_AUTHENTICATED);
-    res.status(HttpCode.OK).json({ member: member });
+    next();
   } catch (err) {
     console.log("Error verifyAuth", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+// retrieve auth
+membersController.retrieveAuth = async (
+  req: ExtendedRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const token = req.cookies["accessToken"];
+    if (token) req.member = await authService.checkAuth(token);
+    next();
+  } catch (err) {
+    console.log("Error retrieveAuth", err);
+    next();
   }
 };
 

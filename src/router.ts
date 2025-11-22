@@ -5,6 +5,11 @@ const router = express.Router();
 /** Member **/
 router.post("/member/signup", membersController.signup);
 router.post("/member/login", membersController.login);
+router.post(
+  "/member/logout",
+  membersController.verifyAuth,
+  membersController.logout
+);
 router.get("/member/detail", membersController.verifyAuth);
 
 /** Product **/
