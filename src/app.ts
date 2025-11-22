@@ -9,7 +9,7 @@ import session from "express-session";
 import { T } from "./libs/types/common";
 const app = express();
 
-// enteres
+// entrees
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true })); //traditional api support
 app.use(express.json()); // rest api support
@@ -46,7 +46,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // routing
-app.use("/admin", routerAdmin); // bssr
-app.use("/", router); // restapi
+app.use("/admin", routerAdmin); // SSR
+app.use("/", router); // React
 
 export default app;
