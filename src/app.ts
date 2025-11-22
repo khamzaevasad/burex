@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 import { MORGAN_FORMAT } from "./libs/config";
 import routerAdmin from "./router-admin";
 import router from "./router";
@@ -9,10 +10,11 @@ import session from "express-session";
 import { T } from "./libs/types/common";
 const app = express();
 
-// enteres
+// entrees
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true })); //traditional api support
 app.use(express.json()); // rest api support
+app.use(cookieParser());
 app.use(morgan(MORGAN_FORMAT));
 
 const MongoDBStore = ConnectMongoDBSession(session);
@@ -46,7 +48,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // routing
-app.use("/admin", routerAdmin); // bssr
-app.use("/", router); // restapi
+app.use("/admin", routerAdmin); // SSR
+app.use("/", router); // React
 
 export default app;

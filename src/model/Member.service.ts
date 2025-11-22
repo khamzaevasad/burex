@@ -16,12 +16,12 @@ class MemberService {
     this.memberModel = MemberModel;
   }
   //**REST**/
+
   // signup
   public async signup(input: MemberInput): Promise<Member> {
     const salt = await bcrypt.genSalt();
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
     try {
-      console.log("Input before create:", input);
       const result = await this.memberModel.create(input);
       result.memberPassword = "";
       return result.toJSON();
@@ -33,7 +33,6 @@ class MemberService {
 
   // login
   public async login(input: LoginInput): Promise<Member> {
-    // TODO: Consider member status later
     const member = await this.memberModel
       .findOne(
         {
@@ -75,7 +74,6 @@ class MemberService {
     input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
 
     try {
-      console.log("before", input);
       const result = await this.memberModel.create(input);
       result.memberPassword = "";
       return result;
