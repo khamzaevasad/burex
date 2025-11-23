@@ -82,6 +82,23 @@ class MemberService {
     return result;
   }
 
+  // getTopUsers
+
+  public async getTopUsers(): Promise<Member[]> {
+    const result = await this.memberModel
+      .find({
+        memberStatus: MemberStatus.ACTIVE,
+        memberPoints: { $gte: -1 },
+      })
+      .sort({ memberPoints: "asc" })
+      .limit(4)
+      .exec();
+
+    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.NO_DATA_FOUND);
+
+    return result;
+  }
+
   //**SSR**/
 
   // processSignup
