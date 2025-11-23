@@ -17,6 +17,15 @@ class MemberService {
   }
   //**REST**/
 
+  // getRestaurant
+  public async getRestaurant(): Promise<Member> {
+    const result = await this.memberModel
+      .findOne({ memberType: MemberType.RESTAURANT })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
+  }
+
   // signup
   public async signup(input: MemberInput): Promise<Member> {
     const salt = await bcrypt.genSalt();
@@ -83,7 +92,6 @@ class MemberService {
   }
 
   // getTopUsers
-
   public async getTopUsers(): Promise<Member[]> {
     const result = await this.memberModel
       .find({
