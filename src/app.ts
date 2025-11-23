@@ -12,6 +12,7 @@ const app = express();
 
 // entrees
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/uploads", express.static("./uploads"));
 app.use(express.urlencoded({ extended: true })); //traditional api support
 app.use(express.json()); // rest api support
 app.use(cookieParser());

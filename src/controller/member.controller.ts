@@ -7,6 +7,7 @@ import {
   LoginInput,
   Member,
   ExtendedRequest,
+  MemberUpdateInput,
 } from "../libs/types/member";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { AUTH_TIMER } from "../libs/config";
@@ -80,6 +81,26 @@ membersController.getMemberDetail = async (
     res.status(HttpCode.OK).json(result);
   } catch (err) {
     console.log("Error getMemberDetail", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+// updateMember
+
+membersController.updateMember = async (
+  req: ExtendedRequest,
+  res: Response
+) => {
+  try {
+    console.log("updateMember");
+    const input: MemberUpdateInput = req.body;
+    // console.log("test", req.file.path);
+    if (req.file) input.memberImage = req.file.path.replace(/\\/, "/");
+    const result = await memberService.updateMember(req.member, input);
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error updateMember", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
