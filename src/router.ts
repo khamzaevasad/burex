@@ -4,6 +4,8 @@ const router = express.Router();
 import makeUpLoader from "./libs/utils/uploader";
 
 /** Member **/
+router.get("/member/restaurant", membersController.getRestaurant);
+
 router.post("/member/signup", membersController.signup);
 router.post("/member/login", membersController.login);
 router.post(
