@@ -17,8 +17,8 @@ function getTargetImageStore(address: any) {
   });
 }
 
-const makeUpLoader = (adress: string) => {
-  const storage = getTargetImageStore(adress);
+const makeUpLoader = (address: string) => {
+  const storage = getTargetImageStore(address);
   return multer({ storage: storage });
 };
 
