@@ -97,15 +97,33 @@ class MemberService {
     const result = await this.memberModel
       .find({
         memberStatus: MemberStatus.ACTIVE,
-        memberPoints: { $gte: -1 },
+        memberPoints: { $gte: 1 },
       })
       .sort({ memberPoints: "asc" })
       .limit(4)
       .exec();
 
-    if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.NO_DATA_FOUND);
+    if (!result.length)
+      throw new Errors(HttpCode.NOT_MODIFIED, Message.NO_DATA_FOUND);
 
     return result;
+  }
+
+  // addUserPoint
+  public async addUserPoint(member: Member, point: number): Promise<Member> {
+    const memberId = shapeIntoMongooseObjectId(member._id);
+
+    return await this.memberModel
+      .findOneAndUpdate(
+        {
+          _id: memberId,
+          memberType: MemberType.USER,
+          memberStatus: MemberStatus.ACTIVE,
+        },
+        { $inc: { memberPoints: point } },
+        { new: true }
+      )
+      .exec();
   }
 
   //**SSR**/
