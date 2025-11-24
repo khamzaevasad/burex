@@ -1,3 +1,4 @@
+import logger from "../libs/logger";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { View, ViewInput } from "../libs/types/view";
 import ViewModel from "../schema/View.model";
@@ -18,7 +19,7 @@ class ViewService {
     try {
       return await this.viewModel.create(input);
     } catch (err) {
-      console.log("ERROR, model: insertMemberVIew", err);
+      logger.error("ERROR, model: insertMemberVIew", err);
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
   }

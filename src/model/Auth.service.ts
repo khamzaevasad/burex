@@ -1,3 +1,4 @@
+import logger from "../libs/logger";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { AUTH_TIMER } from "../libs/config";
 import { Member } from "../libs/types/member";
@@ -32,7 +33,7 @@ class AuthService {
       this.secretToken
     )) as Member;
 
-    console.log(`---[Auth] ${result.memberNick}---`);
+    logger.info(`---[Auth] ${result.memberNick}---`);
     return result;
   }
 }

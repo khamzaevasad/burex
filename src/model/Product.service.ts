@@ -13,6 +13,7 @@ import { ProductStatus } from "../libs/enums/product.enum";
 import ViewService from "./View.service";
 import { ViewInput } from "../libs/types/view";
 import { ViewGroup } from "../libs/enums/view.enum";
+import logger from "../libs/logger";
 
 class ProductService {
   private readonly productModel;
@@ -34,7 +35,7 @@ class ProductService {
     if (inquiry.search) {
       match.productName = { $regex: new RegExp(inquiry.search, "i") };
     }
-    console.log("match", match);
+    logger.info("match", match);
     const sort: T =
       inquiry.order === "productPrice"
         ? { [inquiry.order]: 1 }
@@ -74,7 +75,7 @@ class ProductService {
         viewGroup: ViewGroup.PRODUCT,
       };
       const existView = await this.viewService.checkViewExistence(input);
-      console.log("exist", !!existView);
+      logger.info("exist", !!existView);
 
       if (!existView) {
         // Insert View
@@ -103,7 +104,7 @@ class ProductService {
     try {
       return await this.productModel.create(input);
     } catch (err) {
-      console.log("Error, model:createNewProduct", err);
+      logger.error("Error, model:createNewProduct", err);
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
   };
