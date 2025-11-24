@@ -5,6 +5,7 @@ import orderItemModel from "../schema/orderItem.model";
 import { Order, OrderItemInput } from "../libs/types/order";
 import { shapeIntoMongooseObjectId } from "../libs/config";
 import Errors, { HttpCode, Message } from "../libs/Errors";
+import logger from "../libs/logger";
 
 class OrderService {
   private readonly orderModel;
@@ -20,7 +21,7 @@ class OrderService {
     member: Member,
     input: OrderItemInput[]
   ): Promise<Order> {
-    console.log(input);
+    logger.info(input);
     const memberId = shapeIntoMongooseObjectId(member._id);
     const amount = input.reduce((acc: number, item: OrderItemInput) => {
       return acc + item.itemPrice * item.itemQuantity;
@@ -35,13 +36,13 @@ class OrderService {
       });
 
       const orderId = newOrder._id;
-      console.log("orderID", newOrder._id);
+      logger.info("orderID", newOrder._id);
 
       await this.recordOrderItem(orderId, input);
       //   todo create order item
       return newOrder;
     } catch (err) {
-      console.log("ERROR, model:createdOrder", err);
+      logger.error("ERROR, model:createdOrder", err);
       throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
     }
   }
@@ -57,9 +58,9 @@ class OrderService {
       return "INSERTED";
     });
 
-    console.log("promisedList:", promisedList);
+    logger.info("promisedList:", promisedList);
     const orderItemsState = await Promise.all(promisedList);
-    console.log("orderItemsState:", orderItemsState);
+    logger.info("orderItemsState:", orderItemsState);
   }
 }
 

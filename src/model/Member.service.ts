@@ -1,3 +1,4 @@
+import logger from "../libs/logger";
 import { shapeIntoMongooseObjectId } from "../libs/config";
 import { MemberStatus, MemberType } from "../libs/enums/member.enum";
 import Errors, { HttpCode, Message } from "../libs/Errors";
@@ -35,7 +36,7 @@ class MemberService {
       result.memberPassword = "";
       return result.toJSON();
     } catch (err) {
-      console.log("Error, model:signup", err);
+      logger.error("Error, model:signup", err);
       throw new Errors(HttpCode.BAD_REQUEST, Message.USED_NICK_PHONE);
     }
   }

@@ -1,3 +1,4 @@
+import logger from "../libs/logger";
 import ProductService from "../model/Product.service";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { T } from "../libs/types/common";
@@ -14,7 +15,7 @@ const productService = new ProductService();
 // getProducts
 productController.getProducts = async (req: Request, res: Response) => {
   try {
-    console.log("getProducts");
+    logger.info("getProducts");
     const { page, limit, order, productCollection, search } = req.query;
     const inquiry: ProductInquiry = {
       order: String(order),
@@ -31,7 +32,7 @@ productController.getProducts = async (req: Request, res: Response) => {
 
     res.status(HttpCode.OK).json(result);
   } catch (err) {
-    console.log("Error getProducts", err);
+    logger.error("Error getProducts", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
@@ -40,14 +41,14 @@ productController.getProducts = async (req: Request, res: Response) => {
 // getProduct
 productController.getProduct = async (req: ExtendedRequest, res: Response) => {
   try {
-    console.log("getProduct");
+    logger.info("getProduct");
     const { id } = req.params;
     const memberId = req.member?._id ?? null;
-    console.log("req member", req.member);
+    logger.info("req member", req.member);
     const result = await productService.getProduct(memberId, id);
     res.status(HttpCode.OK).json(result);
   } catch (err) {
-    console.log("Error getProduct", err);
+    logger.error("Error getProduct", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
@@ -58,11 +59,11 @@ productController.getProduct = async (req: ExtendedRequest, res: Response) => {
 // getAllProducts
 productController.getAllProducts = async (req: Request, res: Response) => {
   try {
-    console.log("getAllProduct");
+    logger.info("getAllProduct");
     const data = await productService.getAllProducts();
     res.render("products", { products: data });
   } catch (err) {
-    console.log("Error getAllProduct", err);
+    logger.error("Error getAllProduct", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
@@ -70,7 +71,7 @@ productController.getAllProducts = async (req: Request, res: Response) => {
 // createNewProduct
 productController.createNewProduct = async (req: ReqAdmin, res: Response) => {
   try {
-    console.log("createNewProduct");
+    logger.info("createNewProduct");
     if (!req.files.length)
       throw new Errors(HttpCode.INTERNAL_SERVER_ERROR, Message.CREATE_FAILED);
 
@@ -81,7 +82,7 @@ productController.createNewProduct = async (req: ReqAdmin, res: Response) => {
       `<script> alert("Product created successfully"); window.location.replace('/admin/product/all'); </script>`
     );
   } catch (err) {
-    console.log("Error createNewProduct", err);
+    logger.error("Error createNewProduct", err);
     const message =
       err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
     res.send(
@@ -92,7 +93,7 @@ productController.createNewProduct = async (req: ReqAdmin, res: Response) => {
 
 // updateChosenProduct
 productController.updateChosenProduct = async (req: Request, res: Response) => {
-  console.log("updateChosenProduct");
+  logger.info("updateChosenProduct");
 
   try {
     const id = req.params.id;
