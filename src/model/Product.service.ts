@@ -41,9 +41,11 @@ class ProductService {
       ])
       .exec();
 
-    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    if (!result.length)
+      throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result;
   }
+
   // SSR
   public getAllProducts = async (): Promise<Product[]> => {
     const result = await this.productModel.find().exec();
