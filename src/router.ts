@@ -46,4 +46,10 @@ router.post(
   orderController.createOrder
 );
 
+router.get(
+  "/order/all",
+  membersController.verifyAuth,
+  orderController.getMyOrders
+);
+
 export default router;
