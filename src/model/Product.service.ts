@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import {
   ProductInput,
   ProductInquiry,
@@ -17,7 +18,9 @@ class ProductService {
     this.productModel = ProductModel;
   }
 
-  // SPA
+  /**SPA**/
+
+  // getProducts
   public async getProducts(inquiry: ProductInquiry): Promise<Product[]> {
     const match: T = { productStatus: ProductStatus.PAUSE };
 
@@ -43,6 +46,21 @@ class ProductService {
 
     if (!result.length)
       throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    return result;
+  }
+  // getProduct
+  public async getProduct(
+    memberId: ObjectId | null,
+    id: string
+  ): Promise<Product> {
+    const productId = shapeIntoMongooseObjectId(id);
+
+    let result = await this.productModel
+      .findOne({ _id: productId, productStatus: ProductStatus.PAUSE })
+      .exec();
+    if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+    // todo: if auth users= > first => view log creation
     return result;
   }
 
