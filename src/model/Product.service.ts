@@ -10,12 +10,17 @@ import { Product } from "../libs/types/product";
 import { shapeIntoMongooseObjectId } from "../libs/config";
 import { T } from "../libs/types/common";
 import { ProductStatus } from "../libs/enums/product.enum";
+import ViewService from "./View.service";
+import { ViewInput } from "../libs/types/view";
+import { ViewGroup } from "../libs/enums/view.enum";
 
 class ProductService {
   private readonly productModel;
+  public viewService;
 
   constructor() {
     this.productModel = ProductModel;
+    this.viewService = new ViewService();
   }
 
   /**SPA**/
@@ -48,6 +53,7 @@ class ProductService {
       throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
     return result;
   }
+
   // getProduct
   public async getProduct(
     memberId: ObjectId | null,
@@ -60,7 +66,29 @@ class ProductService {
       .exec();
     if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
 
-    // todo: if auth users= > first => view log creation
+    if (memberId) {
+      // Check Existence
+      const input: ViewInput = {
+        memberId: memberId,
+        viewRefId: productId,
+        viewGroup: ViewGroup.PRODUCT,
+      };
+      const existView = await this.viewService.checkViewExistence(input);
+      console.log("exist", !!existView);
+
+      if (!existView) {
+        // Insert View
+        await this.viewService.insertMemberView(input);
+        // Increase Count
+        result = await this.productModel
+          .findByIdAndUpdate(
+            productId,
+            { $inc: { productViews: +1 } },
+            { new: true }
+          )
+          .exec();
+      }
+    }
     return result;
   }
 
