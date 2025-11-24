@@ -2,7 +2,7 @@ import ProductService from "../model/Product.service";
 import Errors, { HttpCode, Message } from "../libs/Errors";
 import { T } from "../libs/types/common";
 import { Request, Response } from "express";
-import { ReqAdmin } from "../libs/types/member";
+import { ExtendedRequest, ReqAdmin } from "../libs/types/member";
 import { ProductInput, ProductInquiry } from "../libs/types/product";
 import { ProductCollection } from "../libs/enums/product.enum";
 
@@ -11,6 +11,7 @@ const productService = new ProductService();
 
 /**SPA**/
 
+// getProducts
 productController.getProducts = async (req: Request, res: Response) => {
   try {
     console.log("getProducts");
@@ -31,6 +32,22 @@ productController.getProducts = async (req: Request, res: Response) => {
     res.status(HttpCode.OK).json(result);
   } catch (err) {
     console.log("Error getProducts", err);
+    if (err instanceof Errors) res.status(err.code).json(err);
+    else res.status(Errors.standard.code).json(Errors.standard);
+  }
+};
+
+// getProduct
+productController.getProduct = async (req: ExtendedRequest, res: Response) => {
+  try {
+    console.log("getProduct");
+    const { id } = req.params;
+    const memberId = req.member?._id ?? null;
+    console.log("req member", req.member);
+    const result = await productService.getProduct(memberId, id);
+    res.status(HttpCode.OK).json(result);
+  } catch (err) {
+    console.log("Error getProduct", err);
     if (err instanceof Errors) res.status(err.code).json(err);
     else res.status(Errors.standard.code).json(Errors.standard);
   }
