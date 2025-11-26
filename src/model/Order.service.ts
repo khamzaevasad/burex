@@ -13,16 +13,19 @@ import Errors, { HttpCode, Message } from "../libs/Errors";
 import logger from "../libs/logger";
 import MemberService from "./Member.service";
 import { OrderStatus } from "../libs/enums/order.enum";
+import ProductModel from "../schema/Product.model";
 
 class OrderService {
   private readonly orderModel;
   private readonly orderItemModel;
   private readonly memberService;
+  private readonly productModel;
 
   constructor() {
     this.orderModel = OrderModel;
     this.orderItemModel = orderItemModel;
     this.memberService = new MemberService();
+    this.productModel = ProductModel;
   }
 
   //   createOrder
@@ -62,6 +65,17 @@ class OrderService {
     input: OrderItemInput[]
   ): Promise<void> {
     const promisedList = input.map(async (item: OrderItemInput) => {
+      const product = await this.productModel.findById(item.productId);
+      console.log("product", product);
+      if (item.itemQuantity > product.productLeftCount)
+        throw new Error("Not enough stock");
+
+      const newCount = product.productLeftCount - item.itemQuantity;
+      await this.productModel.updateOne(
+        { _id: item.productId },
+        { $set: { productLeftCount: newCount } }
+      );
+
       item.orderId = orderId;
       item.productId = shapeIntoMongooseObjectId(item.productId);
       await this.orderItemModel.create(item);
